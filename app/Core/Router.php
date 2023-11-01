@@ -2,77 +2,91 @@
 
 namespace App\Core;
 
-class Router 
+class Router
 {
-	public array $routes = [];
-	public string $action = '';
-	public Request $request;
-	public Response $response;
+    public array $routes = [];
+    public string $action = '';
+    
+    public Request $request;
+    public Response $response;
 
-	public function __construct(Request $request, Response $response)
-	{
-		$this->request = $request;
-		$this->response = $response;
-	}
-	
-	public function get(string $path, $callback): void
-	{
-		$this->routes['get'][$path] = $callback;
-	}
+    public function __construct(Request $request, Response $response)
+    {
+        $this->request = $request;
+        $this->response = $response;
+    }
+    
+    public function get(string $path, $callback): void
+    {
+        $this->routes['get'][$path] = $callback;
+    }
 
-	public function post(string $path, $callback): void
-	{
-		$this->routes['post'][$path] = $callback;
-	}
+    public function post(string $path, $callback): void
+    {
+        $this->routes['post'][$path] = $callback;
+    }
 
-	public function resolve(): mixed
-	{
-		$path = $this->request->getPath();
-		$method = $this->request->getMethod();
-		$callback = $this->routes[$method][$path] ?? false;
+    public function resolve(): mixed
+    {
+        $path = $this->request->getPath();
+        $method = $this->request->getMethod();
+        $callback = $this->routes[$method][$path] ?? false;
 
-		if ($callback === false) {
-			$this->response->setStatusCode(404);
-			return 'Not Found';
-		}
+        if (!$callback) {
+            $callback = $this->getCallback($path, $method);
 
-		if (is_callable($callback)) {
-			return $callback();
-		}
+            if ($callback === false) {
+                $this->response->setStatusCode(404);
+                return 'Not Found';
+            }
+        }
 
-		if (is_array($callback)) {
-			$callback[0] = new $callback[0]();
-			$this->action = $callback[1];
-			Application::$app->controller = $callback[0];
-			Middleware::runMiddlewares($callback[0]->middlewares);
-		}
-		
-		return call_user_func($callback, $this->request, $this->response);
-	}
+        if (is_array($callback)) {
+            $callback[0] = new $callback[0]();
+            $this->action = $callback[1];
+            Application::$app->controller = $callback[0];
+            Middleware::runMiddlewares($callback[0]->middlewares);
+        }
+        
+        return call_user_func($callback, $this->request, $this->response);
+    }
 
-	public function renderView(string $view, array $params = []): string
-	{
-		$layoutContent = $this->layoutContent(Application::$app->controller->layout);
-		$viewContent = $this->viewContent($view, $params);
+    public function getCallback(string $path, string $method): mixed
+    {
+        $path = trim($path, '/');
+        $routes = $this->routes[$method];
 
-		return str_replace('{{ content }}', $viewContent, $layoutContent);
-	}
+        foreach ($routes as $route => $callback) {
+            $route = trim($route, '/');
+            
+            if (preg_match(
+                $this->buildRegexFromRoute($route), 
+                $path, 
+                $matches
+            )
+            ) {
+                $routeName = $this->extractRouteNames($route);
+                $values = array_slice($matches, 1);
+                
+                $params = array_combine($routeName, $values);
+                
+                $this->request->setParams($params);
+                
+                return $callback;
+            }
+        }
 
-	private function layoutContent(string $layout): string
-	{
-		ob_start();
-		include_once Application::$root_dir . "/views/layouts/$layout.php";
-		return ob_get_clean();
-	}
+        return false;
+    }
 
-	private function viewContent(string $view, array $params = []): string
-	{
-		foreach ($params as $key => $value) {
-			$$key = $value;
-		}
+    private function buildRegexFromRoute(string $route): string
+    {
+        return "@^" . preg_replace("/\{(\w+)\}/", "(\w+)", $route) . "$@";
+    }
 
-		ob_start();
-		include_once Application::$root_dir . "/views/$view.php";
-		return ob_get_clean();
-	}
+    private function extractRouteNames(string $route): array
+    {
+        preg_match_all("/\{(\w+)\}/", $route, $matches);
+        return $matches[1];
+    }
 }

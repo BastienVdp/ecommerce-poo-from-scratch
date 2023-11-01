@@ -7,10 +7,10 @@ use App\Core\Application;
 
 class AuthMiddleware extends Middleware
 {
-	public function execute()
-	{
-		if(!Application::isConnected()) {
-			Application::$app->response->redirect('/login');
-		}
-	}
+    public function execute(): void
+    {
+        if (!Application::isConnected()) {
+            Application::$app->response->redirect('/login');
+        }
+    }
 }

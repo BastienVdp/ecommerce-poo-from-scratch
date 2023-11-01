@@ -11,5 +11,7 @@
             "email": "bastienpp@hotmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
+    }
 }
