@@ -12,11 +12,9 @@ class ProductController extends Controller
     {
         $products = Product::all();
 
-        return View::make(
-            'products/index', [
+        return View::make('products/index', [
             'products' => $products
-            ]
-        );
+        ]);
     }
 
     public function show($request)
@@ -25,15 +23,19 @@ class ProductController extends Controller
         if (!$product) {
             throw new \Exception("Product not found", 404);
         }
-        return View::make(
-            'products/show', [
+        return View::make('products/show', [
             'product' => $product
-            ]
-        );
+        ]);
     }
 
     public function edit($request)
     {
-        return 'coucou';
+        $product = Product::find(['id' => $request->params['id']]);
+        
+        var_dump($product);
+
+        return View::make('products/edit', [
+            'product' => $product
+        ]);
     }
 }

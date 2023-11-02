@@ -32,19 +32,25 @@ abstract class Model
         return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
 
-    public static function find(array $where): array
+    public static function find(array $where): array|static
     {
         $sql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", array_keys($where)));
-        
+    
         $statement = self::prepare("SELECT * FROM " . static::getTable() . " WHERE " . $sql);
         
         foreach ($where as $key => $value) {
             $statement->bindValue(":$key", $value);
         }
-
+    
         $statement->execute();
-
-        return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
+    
+        if ($statement->rowCount() > 1) {
+            return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
+        } elseif ($statement->rowCount() == 1) {
+            return $statement->fetchObject(static::class);
+        } else {
+            return [];
+        }
     }
 
     public static function findOneById(int $id): ?static

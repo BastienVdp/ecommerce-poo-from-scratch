@@ -44,6 +44,7 @@ class Router
         if (is_array($callback)) {
             $callback[0] = new $callback[0]();
             $this->action = $callback[1];
+            
             Application::$app->controller = $callback[0];
             Middleware::runMiddlewares($callback[0]->middlewares);
         }

@@ -15,10 +15,4 @@ class User extends Model
     {
         return ['username', 'email', 'password'];
     }
-
-    public static function create(array $data): null|static
-    {
-        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-        return parent::create($data);
-    }
 }
