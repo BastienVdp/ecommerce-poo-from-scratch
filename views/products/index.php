@@ -6,7 +6,10 @@
 	<div class="group">
 		<a href="/products/<?= $product->id ?>">
 			<div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-				<img src="<?= $product->image ?>" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+				<img 
+					src="/images/products/<?= $product->image ?>" 
+					alt="<?= $product->name ?>"
+				>
 			</div>
 			<h3 class="mt-4 text-sm text-gray-700 flex items-center justify-between">
 				<?= $product->name ?>

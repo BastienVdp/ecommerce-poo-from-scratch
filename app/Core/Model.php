@@ -25,9 +25,12 @@ abstract class Model
         return 'id';
     }
 
-    public static function all(): array
+    public static function all(string $order = 'ASC'): array
     {
-        $statement = self::prepare("SELECT * FROM " . static::getTable());
+        $order = strtoupper($order);
+        if($order !== 'ASC' && $order !== 'DESC') $order = 'ASC';
+        
+        $statement = self::prepare("SELECT * FROM " . static::getTable() . " ORDER BY id " . $order);
         $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
     }
@@ -51,14 +54,6 @@ abstract class Model
         } else {
             return [];
         }
-    }
-
-    public static function findOneById(int $id): ?static
-    {
-        $statement = self::prepare("SELECT * FROM " . static::getTable() . " WHERE id = :id");
-        $statement->bindValue(":id", $id);
-        $statement->execute();
-        return $statement->fetchObject(static::class);
     }
 
     public static function getLastInsertId(): int
@@ -85,13 +80,13 @@ abstract class Model
         $statement->execute();
 
         if (self::getLastInsertId()) {
-            return self::findOneById(self::getLastInsertId());
+            return self::find(['id' => self::getLastInsertId()]);
         }
 
         return null;
     }
 
-    public static function update(array $where, array $data): array
+    public static function update(array $where, array $data): array|static
     {
         $sql = implode(",", array_map(fn($attr) => "$attr = :$attr", array_keys($data)));
         $whereSql = implode(" AND ", array_map(fn($attr) => "$attr = :$attr", array_keys($where)));

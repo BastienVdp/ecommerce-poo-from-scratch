@@ -52,9 +52,19 @@ class Application
         self::$app->router->post($path, $callback);
     }
 
+    public static function delete(string $path, mixed $callback): void
+    {
+        self::$app->router->delete($path, $callback);
+    }
+
     public static function isConnected()
     {
         return self::$app->user !== null;
+    }
+
+    public static function isAdmin()
+    {
+        return self::$app->user->admin;
     }
 
     public function setUser(User $user): void

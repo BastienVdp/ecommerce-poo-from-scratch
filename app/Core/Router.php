@@ -26,6 +26,11 @@ class Router
         $this->routes['post'][$path] = $callback;
     }
 
+    public function delete(string $path, $callback): void
+    {
+        $this->routes['delete'][$path] = $callback;
+    }
+
     public function resolve(): mixed
     {
         $path = $this->request->getPath();
@@ -34,7 +39,6 @@ class Router
 
         if (!$callback) {
             $callback = $this->getCallback($path, $method);
-
             if ($callback === false) {
                 $this->response->setStatusCode(404);
                 return 'Not Found';

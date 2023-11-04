@@ -3,7 +3,11 @@
 		<div class="flex h-10 items-center justify-between mx-auto max-w-7xl px-4">
 			Hello <?= App\Core\Application::isConnected() ?> !
 			<div class="flex items-center">
-				<?php if (!App\Core\Application::isConnected()): ?>
+				<?php
+
+                    use App\Core\Application;
+
+ if (!App\Core\Application::isConnected()): ?>
 				<a href="/login" class="text-white hover:text-gray-200 mr-4">Se connecter</a>
 				<span class="h-4 w-px bg-gray-500" aria-hidden="true"></span>
 				<a href="/register" class="ml-4 text-white hover:text-gray-200">S'inscrire</a>
@@ -60,7 +64,7 @@
 					<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
 					</svg>
 					<span class="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-						0
+						<?= count(App\Core\Application::$app->session->get('cart'))?>
 					</span>
 					<span class="sr-only">items in cart, view bag</span>
 				</a>

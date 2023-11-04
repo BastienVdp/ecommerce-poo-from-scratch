@@ -16,8 +16,8 @@ class Validation
 
                 switch ($rule[0]) {
                 case 'required':
-                    if (!isset($request->body[$key]) || empty($request->body[$key])) {
-                              $errors[$key] = 'The ' . $key . ' field is required.';
+                    if (!isset($request->body[$key]) || $request->body[$key] === '') {
+                        $errors[$key] = 'The ' . $key . ' field is required.';
                     }
                     break;
                 case 'min':
@@ -50,6 +50,19 @@ class Validation
                 case 'confirmed':
                     if ($request->body[str_replace('_confirmation', '', $key)] !== $request->body[$key]) {
                         $errors[$key] = 'The ' . $key . ' field confirmation does not match.';
+                    }
+                    break;
+                case 'numeric':
+                    if (!is_numeric((int)$request->body[$key])) {
+                        $errors[$key] = 'The ' . $key . ' field must be a number.';
+                    }
+                    break;
+                case 'image':
+                    $allowedExtensions = explode(',', $rule[1]);
+                    $extension = pathinfo($request->body[$key]['name'], PATHINFO_EXTENSION);
+
+                    if (!in_array($extension, $allowedExtensions)) {
+                        $errors[$key] = "The " . $key . " field must be a file of type: " . $rule[1];
                     }
                     break;
                 }
