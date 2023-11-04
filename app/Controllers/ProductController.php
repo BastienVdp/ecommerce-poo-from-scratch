@@ -27,15 +27,4 @@ class ProductController extends Controller
             'product' => $product
         ]);
     }
-
-    public function edit($request)
-    {
-        $product = Product::find(['id' => $request->params['id']]);
-        
-        var_dump($product);
-
-        return View::make('products/edit', [
-            'product' => $product
-        ]);
-    }
 }
