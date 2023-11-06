@@ -25,12 +25,12 @@ abstract class Model
         return 'id';
     }
 
-    public static function all(string $order = 'ASC'): array
+    public static function all(string $filter = 'id', string $order = 'ASC'): array
     {
         $order = strtoupper($order);
         if($order !== 'ASC' && $order !== 'DESC') $order = 'ASC';
         
-        $statement = self::prepare("SELECT * FROM " . static::getTable() . " ORDER BY id " . $order);
+        $statement = self::prepare("SELECT * FROM " . static::getTable() . " ORDER BY " . $filter . " " . $order);
         $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_CLASS, static::class);
     }

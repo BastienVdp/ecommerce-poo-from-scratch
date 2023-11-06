@@ -37,14 +37,10 @@
 						<ul class="flex text-sm">
 							<li class="mr-2">
 								<a href="#" class="hover:underline">
-									<span class="font-semibold text-gray-900 dark:text-white">799</span>
-									<span>Following</span>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="hover:underline">
-									<span class="font-semibold text-gray-900 dark:text-white">3,758</span>
-									<span>Followers</span>
+									<span class="font-semibold text-gray-900 dark:text-white">
+										<?= count(App\Core\Application::$app->user->orders()) ?>
+									</span>
+									<span>Commandes</span>
 								</a>
 							</li>
 						</ul>
@@ -52,15 +48,15 @@
 				</div>
 			</div>
 			<div class="w-3/4">			
-				<div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mb-4">
+				<div class="text-sm font-medium text-center border-b border-gray-200 mb-4">
 					<ul class="flex flex-wrap">
 						<li class="mr-2">
-							<a href="/profile" class="inline-block p-4 pb-4 py-0 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300">
+							<a href="/profile" class="<?= self::isCurrentPath('/profile') ? 'text-indigo-600 border-indigo-600' : 'text-gray-500 border-transparent' ?> inline-block p-4 pb-4 py-0 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300">
 								Informations
 							</a>
 						</li>
 						<li class="mr-2">
-							<a href="/profile/orders" class="inline-block p-4 pb-4 py-0 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300">
+							<a href="/profile/orders" class="<?= self::isCurrentPathStartWith('/profile/orders') ? 'text-indigo-600 border-indigo-600' : 'text-gray-500 border-transparent' ?> inline-block p-4 pb-4 py-0 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300">
 								Commandes
 							</a>
 						</li>

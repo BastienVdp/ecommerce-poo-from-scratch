@@ -3,6 +3,9 @@
 namespace App\Controllers;
 
 use App\Core\View;
+use App\Core\Request;
+use App\Models\Order;
+use App\Core\Response;
 use App\Models\Product;
 use App\Core\Controller;
 use App\Core\Application;
@@ -27,7 +30,7 @@ class CartController extends Controller
 		]);
 	}
 
-	public function add($request, $response)
+	public function add(Request $request, Response $response)
 	{
 		$product = Product::find(['id' => $request->params['productId']]);
 		$ressource = (array)$product;
@@ -52,7 +55,7 @@ class CartController extends Controller
 		$response->redirect('/cart');
 	}
 
-	public function remove($request, $response)
+	public function remove(Request $request, Response $response)
 	{
 		$cart = Application::$app->session->get('cart');
 		
@@ -70,6 +73,27 @@ class CartController extends Controller
 		}
 
 		$response->redirect('/cart');
+	}
+
+	public function checkout(Request $request, Response $response)
+	{
+		$products = Application::$app->session->get('cart');
+
+		$totalCart = array_sum(array_map(fn($product) => $product['price'] * $product['quantity'], $products));	
+
+		// uniq id with 4 chars
+
+		$order = Order::create([
+			'number' => substr(uniqid(), -4),
+			'total_price' => $totalCart,
+			'user_id' => Application::$app->user->id
+		]);
+
+		$order->associate(Product::class, $products);
+
+		Application::$app->session->set('cart', []);
+		
+		$response->redirect('/profile/orders/' . $order->id);
 	}
 }
 

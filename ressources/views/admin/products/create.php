@@ -40,7 +40,26 @@
 						? '<p class="text-red-500 text-xs italic">' . $errors['description'] . '</p>' 
 						: '' 
 					?>
-				</div> 
+				</div>
+				<div class="mb-4">
+					<label for="category"class="block text-gray-700 font-bold mb-2">
+						Catégorie du produit
+					</label>
+					<select 
+						id="category"
+						name="category"
+						class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+					>
+						<option value="">Choisir une catégorie</option>
+						<?php foreach($categories as $key => $category): ?>
+							<option value="<?= $category->id ?>"><?= $category->name ?></option>
+						<?php endforeach; ?>
+					</select>
+					<?= isset($errors['category'])
+						? '<p class="text-red-500 text-xs italic">' . $errors['category'] . '</p>' 
+						: '' 
+					?>
+				</div>
 				<div class="mb-4">
 					<label for="price"class="block text-gray-700 font-bold mb-2">
 						Prix du produit

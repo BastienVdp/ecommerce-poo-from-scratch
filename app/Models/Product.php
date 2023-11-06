@@ -16,11 +16,21 @@ class Product extends Model
 
     public static function getAttributes(): array
     {
-        return ['name', 'description', 'price', 'image'];
+        return ['name', 'description', 'price', 'image', 'category_id'];
     }
 
-    public function user()
+    public function user(): object
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category(): object|bool
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_product');
     }
 }

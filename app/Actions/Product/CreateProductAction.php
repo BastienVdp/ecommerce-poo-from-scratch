@@ -11,16 +11,19 @@ class CreateProductAction
 		string $name,
 		string $description,
 		float $price,
+		int $category,
 		array $image
-	): array|null
+	): array|bool
 	{
 		if($image = FileUploader::upload($image, '/public/images/products')) {
 			Product::create([
 				"name" => $name,
 				"description" => $description,
 				"price" => $price,
+				"category_id" => $category,
 				"image" => $image
 			]);
+
 			return true;
 		} else {
 			return [

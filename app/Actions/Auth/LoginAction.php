@@ -14,6 +14,7 @@ class LoginAction {
 	{
 		$user = User::find(['email' => $email]);
 		
+		var_dump($user);exit;
 		if(!$user) {
 			return ['email' => "L'utilisateur n'existe pas."];
 		} else if(!password_verify($password, $user->password)) {

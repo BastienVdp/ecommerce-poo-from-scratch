@@ -12,6 +12,7 @@ class UpdateProductAction
 		string $name,
 		string $description,
 		float $price,
+		int $category,
 		array $image
 	): array|bool
 	{
@@ -23,6 +24,7 @@ class UpdateProductAction
 					"name" => $name,
 					"description" => $description,
 					"price" => $price,
+					"category_id" => $category,
 					"image" => $image
 				]);
 				return true;
@@ -34,6 +36,7 @@ class UpdateProductAction
 			Product::update(['id' => $product->id], [
 				"name" => $name,
 				"description" => $description,
+				"category_id" => $category,
 				"price" => $price,
 			]);
 			return true;

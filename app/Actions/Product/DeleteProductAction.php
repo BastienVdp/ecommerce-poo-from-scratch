@@ -8,9 +8,8 @@ class DeleteProductAction
 {
 	public function execute(
 		int $id
-	): bool
+	): void
 	{
 		Product::delete(['id' => $id]);
-		return true;
 	}
 }

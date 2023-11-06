@@ -1,13 +1,9 @@
 <header class="relative bg-white">
 	<div class="bg-indigo-600 text-sm text-white">
 		<div class="flex h-10 items-center justify-between mx-auto max-w-7xl px-4">
-			Hello <?= App\Core\Application::isConnected() ?> !
+			Hello <?= App\Core\Application::isConnected() ? App\Core\Application::$app->user->username : 'visiteur' ?> !
 			<div class="flex items-center">
-				<?php
-
-                    use App\Core\Application;
-
- if (!App\Core\Application::isConnected()): ?>
+				<?php if (!App\Core\Application::isConnected()): ?>
 				<a href="/login" class="text-white hover:text-gray-200 mr-4">Se connecter</a>
 				<span class="h-4 w-px bg-gray-500" aria-hidden="true"></span>
 				<a href="/register" class="ml-4 text-white hover:text-gray-200">S'inscrire</a>
@@ -42,6 +38,13 @@
 						<a href="/products" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
 							Produits
 						</a>
+
+						<?php 
+							if(isset(App\Core\Application::$app->user) && App\Core\Application::isAdmin()): ?>
+								<a href="/admin" class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800">
+									Admin
+								</a>
+						<?php endif;?>
 					</div>
 				</div>
 			</div>

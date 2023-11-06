@@ -1,7 +1,29 @@
-<?php
+<?php 
 
-use App\Core\Application;
+$nav = [
+	[
+		"route" => "/admin",
+		"label" => "Dashboard",
+		"active" => self::isCurrentPath("/admin")
+	], 
+	[
+		"route" => "/admin/products",
+		"label" => "Produits",
+		"active" => self::isCurrentPathStartWith("/admin/products")
+	],
+	[
+		"route" => "/admin/categories",
+		"label" => "Catégories",
+		"active" => self::isCurrentPathStartWith("/admin/categories")
+	],
+	[
+		"route" => "/admin/users",
+		"label" => "Utilisateurs",
+		"active" => self::isCurrentPathStartWith("/admin/users")
+	]
+];
 ?>
+
 <!DOCTYPE html>
 <html lang="fr" class="h-full bg-gray-100">
 <head>
@@ -10,6 +32,7 @@ use App\Core\Application;
 	<title>Administration</title>
 	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.5.6/src/index.min.js"></script>
 	<script src="https://cdn.tailwindcss.com"></script>
+	<style>.alert { color: red;}</style>
 </head>
 <body class="h-full">
 	<div class="min-h-full">
@@ -22,10 +45,13 @@ use App\Core\Application;
 						</div>
 						<div class="hidden md:block">
 							<div class="ml-10 flex items-baseline space-x-4">
-							<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-							<a href="/admin" class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Dashboard</a>
-							<a href="/admin/products" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Produits</a>
-							<a href="/admin/users" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Utilisateurs</a>
+								<?php foreach($nav as $item): ?>
+								<a 
+									href="<?= $item['route'] ?>" 
+									class="<?= $item['active'] ? 'bg-gray-900 text-white' : 'text-gray-300' ?> hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+									<?= $item['label'] ?>
+								</a>
+								<?php endforeach; ?>
 							</div>
 						</div>
 					</div>
@@ -43,15 +69,18 @@ use App\Core\Application;
 			<!-- Mobile menu, show/hide based on menu state. -->
 			<div class="md:hidden" id="mobile-menu">
 				<div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
-					<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-					<a href="/admin" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Dashboard</a>
-					<a href="/admin/products" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Produits</a>
-					<a href="/admin/users" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Utilisateurs</a>
+				<?php foreach($nav as $item): ?>
+					<a 
+						href="<?= $item['route'] ?>" 
+						class="<?= $item['active'] ? 'bg-gray-900 text-white' : 'text-gray-300' ?> block hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+						<?= $item['label'] ?>
+					</a>
+				<?php endforeach; ?>
 				</div>
 				<div class="border-t border-gray-700 pb-3 pt-4">
 					<div class="flex flex-col px-5 gap-4">
-						<div class="text-base font-medium leading-none text-white"><?= Application::$app->user->username ?></div>
-						<div class="text-sm font-medium leading-none text-gray-400"><?= Application::$app->user->email ?></div>
+						<div class="text-base font-medium leading-none text-white"><?= App\Core\Application::$app->user->username ?></div>
+						<div class="text-sm font-medium leading-none text-gray-400"><?= App\Core\Application::$app->user->email ?></div>
 					</div>
 					<div class="mt-3 space-y-1 px-2">
 						<a href="/" class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white">Retour au site</a>

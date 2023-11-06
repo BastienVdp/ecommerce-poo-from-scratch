@@ -45,9 +45,15 @@
 	</ul>
 	<div class="border-t pt-8">
 		<p class="text-right text-xl font-medium">Total : <span class="text-lg text-indigo-600"><?= $totalCart ?>€</span></p>
+		<?php if(App\Core\Application::isConnected()): ?>
 		<form action="/cart/checkout" method="POST">
 			<button type="submit" class="float-right px-4 py-2 mt-4 text-white bg-indigo-500 rounded hover:bg-indigo-600">Commander</button>
 		</form>
+		<?php else: ?>
+			<a href="/login" class="float-right px-4 py-2 mt-4 text-white bg-indigo-500 rounded hover:bg-indigo-600">
+				Se connecter pour commander
+			</a>
+		<?php endif; ?>
 	</div>
 	<?php } ?>
 </div>

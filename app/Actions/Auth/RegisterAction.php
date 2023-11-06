@@ -11,7 +11,7 @@ class RegisterAction {
 		string $email,
 		string $username,
 		string $password
-	)
+	): void
 	{
 		Application::$app->setUser(
 			User::create([

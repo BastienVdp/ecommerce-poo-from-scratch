@@ -2,19 +2,16 @@
 
 namespace App\Controllers;
 
+use App\Core\View;
+use App\Models\User;
 use App\Models\Product;
 use App\Core\Controller;
 use App\Core\Application;
-use App\Core\View;
 
 class HomeController extends Controller
 {
     public function index()
-    {
-        $products = Product::all();
-
-        return View::make('home/index', [
-            'products' => $products
-        ]);
+    {       
+        return View::make('home/index');
     } 
 }

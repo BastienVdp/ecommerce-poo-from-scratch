@@ -2,20 +2,27 @@
 
 namespace App\Core;
 
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 class View 
 {
-	public static function make(string $view, array $params = []): string
+    // public static function make(string $view, array $params = [])
+    // {
+    //     return Application::$app->twig->render("$view.twig", $params);
+    // }
+	public static function make(string $view, array $params = [], string $layout = null): string
     {
-        $layoutContent = self::layoutContent(Application::$app->controller->layout);
+        $layoutContent = self::layoutContent($layout ? $layout : Application::$app->controller->layout);
         $viewContent = self::viewContent($view, $params);
-
+     
         return str_replace('{{ content }}', $viewContent, $layoutContent);
     }
 
     private static function layoutContent(string $layout): string
     {
         ob_start();
-        include_once Application::$root_dir . "/views/layouts/$layout.php";
+        include_once Application::$root_dir . "/ressources/views/layouts/$layout.php";
         return ob_get_clean();
     }
 
@@ -26,7 +33,24 @@ class View
         }
 
         ob_start();
-        include_once Application::$root_dir . "/views/$view.php";
+        include_once Application::$root_dir . "/ressources/views/$view.php";
         return ob_get_clean();
     }
+
+    public static function getCurrentPath()
+    {
+        return Application::$app->request->getPath();
+    }
+
+    public static function isCurrentPath($path)
+    {
+        // ou Commence par $path 
+        return Application::$app->request->getPath() === $path;
+    }
+
+    public static function isCurrentPathStartWith($path)
+    {
+        return strpos(Application::$app->request->getPath(), $path) === 0;
+    }
+
 }
