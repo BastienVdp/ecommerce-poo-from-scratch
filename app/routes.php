@@ -1,5 +1,10 @@
 <?php 
-
+/* 
+ * The code you provided is defining routes for a PHP application 
+ * using the Application class from the App\Core namespace. 
+ * Each route is associated with a specific URL and a corresponding 
+ * controller method that will be executed when that URL is accessed. 
+ */
 use App\Core\Application;
 
 Application::get('/', [App\Controllers\HomeController::class, 'index']);
@@ -16,7 +21,6 @@ Application::get('/products/sort/{filter}/{order}', [App\Controllers\ProductCont
 
 Application::get('/admin', [App\Controllers\AdminController::class, 'index']);
 Application::get('/admin/products', [App\Controllers\AdminController::class, 'products']);
-
 Application::get('/admin/products/create', [App\Controllers\ProductController::class, 'create']);
 Application::post('/admin/products/create', [App\Controllers\ProductController::class, 'store']);
 Application::get('/admin/products/{id}/edit', [App\Controllers\ProductController::class, 'edit']);

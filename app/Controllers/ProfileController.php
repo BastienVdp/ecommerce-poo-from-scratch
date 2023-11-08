@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Core\View;
-use App\Core\Request;
-use App\Models\Order;
 use App\Core\Controller;
 use App\Core\Application;
+use App\Core\View;
+use App\Core\Request;
 
+use App\Models\Order;
 class ProfileController extends Controller
 {
     public string $layout = 'profile';

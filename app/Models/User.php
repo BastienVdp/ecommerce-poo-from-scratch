@@ -19,6 +19,15 @@ class User extends Model
     {
         return ['username', 'email', 'password'];
     }
+    
+    public static function getLabels(): array
+    {
+        return [
+            'username' => 'Nom d\'utilisateur',
+            'email' => 'Adresse email',
+            'password' => 'Mot de passe'
+        ];
+    }
 
     public function products()
     {

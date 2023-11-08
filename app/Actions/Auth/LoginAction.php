@@ -7,6 +7,15 @@ use App\Core\Application;
 
 class LoginAction {
 
+	/**
+	 * The function takes an email and password as input, checks if the user exists and if the password is
+	 * correct, and returns an array with error messages or sets the user in the application.
+	 * 
+	 * @param string email The email parameter is a string that represents the user's email address.
+	 * @param string password The password parameter is a string that represents the user's password.
+	 * 
+	 * @return array|null an array or null.
+	 */
 	public function execute(
 		string $email,
 		string $password
@@ -14,7 +23,6 @@ class LoginAction {
 	{
 		$user = User::find(['email' => $email]);
 		
-		var_dump($user);exit;
 		if(!$user) {
 			return ['email' => "L'utilisateur n'existe pas."];
 		} else if(!password_verify($password, $user->password)) {

@@ -7,12 +7,13 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Core\Controller;
 use App\Core\Validation;
+
 use App\Models\Product;
 use App\Models\Category;
+
 use App\Actions\Product\CreateProductAction;
 use App\Actions\Product\DeleteProductAction;
 use App\Actions\Product\UpdateProductAction;
-
 class ProductController extends Controller
 {
     public function __construct()
@@ -69,6 +70,20 @@ class ProductController extends Controller
         ], layout: 'admin');
 	}
 
+    /**
+     * The function stores a product by validating the request data, executing the creation action, and
+     * redirecting to the product list or displaying errors.
+     * 
+     * @param Request request The  parameter is an instance of the Request class, which
+     * represents an HTTP request. It contains information about the request such as the request
+     * method, headers, body, and query parameters.
+     * @param Response response The `` parameter is an instance of the `Response` class, which
+     * is used to send a response back to the client. It can be used to set the HTTP status code,
+     * headers, and body of the response.
+     * 
+     * @return The code is returning a response. If there are no validation errors, it will redirect to
+     * '/admin/products'. If there are validation errors, it will return a view with the errors.
+     */
     public function store(Request $request, Response $response)
     {
         $errors = Validation::validate($request, [
@@ -77,7 +92,7 @@ class ProductController extends Controller
             "price" => "required|numeric",
             "category" => "required",
             "image" => "required|image:png,jpg,jpeg"
-        ]);
+        ], Product::class);
 
         if(empty($errors)) {
             if(
@@ -115,6 +130,20 @@ class ProductController extends Controller
 		], layout: 'admin');
 	}
 
+    /**
+     * The above function is used to update a product in a PHP application, including validation and
+     * error handling.
+     * 
+     * @param Request request The `` parameter is an instance of the `Request` class, which
+     * represents an HTTP request. It contains information about the request such as the request
+     * method, URL, headers, and body.
+     * @param Response response The `` parameter is an instance of the `Response` class, which
+     * is used to send a response back to the client. It can be used to redirect the user to a
+     * different page or to send a JSON response, among other things.
+     * 
+     * @return a response. If there are no validation errors, it will redirect to '/admin/products'. If
+     * there are validation errors, it will return a view with the product, categories, and errors.
+     */
     public function update(Request $request, Response $response)
     {
 		$product = Product::find(['id' => $request->params['id']]);
@@ -129,7 +158,7 @@ class ProductController extends Controller
         
         if($request->body['image']['name']) $rules['image'] = "required|image:png,jpg,jpeg";
         
-        $errors = Validation::validate($request, $rules);
+        $errors = Validation::validate($request, $rules, Product::class);
 
         if(empty($errors)) {
             if(

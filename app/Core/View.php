@@ -1,16 +1,8 @@
 <?php 
 
 namespace App\Core;
-
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-
 class View 
 {
-    // public static function make(string $view, array $params = [])
-    // {
-    //     return Application::$app->twig->render("$view.twig", $params);
-    // }
 	public static function make(string $view, array $params = [], string $layout = null): string
     {
         $layoutContent = self::layoutContent($layout ? $layout : Application::$app->controller->layout);
@@ -44,7 +36,6 @@ class View
 
     public static function isCurrentPath($path)
     {
-        // ou Commence par $path 
         return Application::$app->request->getPath() === $path;
     }
 

@@ -1,48 +1,54 @@
-Title
+E-commerce PHP MVC 
 ===
-Abstract:xxx
-## Papar Information
-- Title:  `paper name`
-- Authors:  `A`,`B`,`C`
-- Preprint: [https://arxiv.org/abs/xx]()
-- Full-preprint: [paper position]()
-- Video: [video position]()
 
-## Install & Dependence
-- python
-- pytorch
-- numpy
+## Informations
+- Title:  `E-commerce PHP MVC`
+- Author:  `neitsab`
 
-## Dataset Preparation
-| Dataset | Download |
-| ---     | ---   |
-| dataset-A | [download]() |
-| dataset-B | [download]() |
-| dataset-C | [download]() |
+## Installation
+- Clone the projet using git
+- Run `composer install`
+- Configure the app/config.php 
+- Run migrations by executing `php database/index.php (--seed| --refresh)`
 
-## Use
-- for train
-  ```
-  python train.py
-  ```
-- for test
-  ```
-  python test.py
-  ```
-## Pretrained model
-| Model | Download |
-| ---     | ---   |
-| Model-1 | [download]() |
-| Model-2 | [download]() |
-| Model-3 | [download]() |
+## Features
+- Router
+- Migrations / Factory / Seeder
+- Relations between Models
+- Middlewares
+- User Authentication
+- Content Management 
+- Shopping Cart
+- Administration
+- File Uploader
 
+## Guide 
+- Create your migrations in Database\Migrations following the convention
+- Create your models in App\Models 
+- Create your controller in App\Controllers
+- Defining your routes in app/routes.php
 
 ## Directory Hierarchy
 ```
-|—— .gitignore
 |—— app
+|    |—— Actions
+|        |—— Auth
+|            |—— LoginAction.php
+|            |—— RegisterAction.php
+|        |—— Category
+|            |—— CreateCategoryAction.php
+|            |—— DeleteCategoryAction.php
+|            |—— UpdateCategoryAction.php
+|        |—— Product
+|            |—— CreateProductAction.php
+|            |—— DeleteProductAction.php
+|            |—— UpdateProductAction.php
+|    |—— config.php
 |    |—— Controllers
+|        |—— AdminController.php
 |        |—— AuthController.php
+|        |—— CartController.php
+|        |—— CategoryController.php
 |        |—— HomeController.php
 |        |—— ProductController.php
 |        |—— ProfileController.php
@@ -50,67 +56,84 @@ Abstract:xxx
 |        |—— Application.php
 |        |—— Controller.php
 |        |—— Database.php
+|        |—— Factory.php
 |        |—— Middleware.php
+|        |—— Migration.php
 |        |—— Model.php
 |        |—— Request.php
 |        |—— Response.php
 |        |—— Router.php
+|        |—— Runner.php
 |        |—— Session.php
 |        |—— Validation.php
 |        |—— View.php
 |    |—— Middlewares
+|        |—— AdminMiddleware.php
 |        |—— AuthMiddleware.php
 |    |—— Models
+|        |—— Category.php
+|        |—— Order.php
 |        |—— Product.php
 |        |—— User.php
-|—— views
-|    |—— auth
-|        |—— login.php
-|        |—— register.php
-|    |—— home
-|        |—— index.php
-|        |—— profile.php
-|    |—— layouts
-|        |—— default.php
-|        |—— guest.php
-|        |—— header.php
-|        |—— profile.php
-|    |—— products
-|        |—— index.php
-|        |—— show.php
-|    |—— profile
-|        |—— index.php
-|—— public
-|    |—— .htaccess
-|    |—— index.php
+|    |—— routes.php
+|    |—— Services
+|        |—— FileUploader.php
+|    |—— Trait
+|        |—— Relationship.php
 |—— composer.json
 |—— composer.lock
+|—— database
+|    |—— factories
+|        |—— CategoryFactory.php
+|        |—— ProductFactory.php
+|        |—— UserFactory.php
+|    |—— index.php
+|    |—— migrations
+|        |—— m001_create_users_table.php
+|        |—— m002_create_categories_table.php
+|        |—— m003_create_products_table.php
+|        |—— m004_create_orders_table.php
+|        |—— m005_create_order_product_table.php
+|    |—— seeders
+|        |—— DatabaseSeeder.php
+|—— public
+|    |—— .htaccess
+|    |—— images
+|        |—— products
+|    |—— index.php
+|—— ressources
+|    |—— views
+|        |—— admin
+|            |—— categories
+|                |—— create.php
+|                |—— edit.php
+|                |—— index.php
+|            |—— dashboard.php
+|            |—— products
+|                |—— create.php
+|                |—— edit.php
+|                |—— index.php
+|            |—— users.php
+|        |—— auth
+|            |—— login.php
+|            |—— register.php
+|        |—— cart
+|            |—— index.php
+|        |—— home
+|            |—— index.php
+|        |—— layouts
+|            |—— admin.php
+|            |—— default.php
+|            |—— guest.php
+|            |—— header.php
+|            |—— profile.php
+|        |—— products
+|            |—— index.php
+|            |—— show.php
+|        |—— profile
+|            |—— index.php
+|            |—— orders
+|                |—— index.php
+|                |—— show.php
 ```
-## Code Details
-### Tested Platform
-- software
-  ```
-  OS: Debian unstable (May 2021), Ubuntu LTS
-  Python: 3.8.5 (anaconda)
-  PyTorch: 1.7.1, 1.8.1
-  ```
-- hardware
-  ```
-  CPU: Intel Xeon 6226R
-  GPU: Nvidia RTX3090 (24GB)
-  ```
-### Hyper parameters
-```
-```
-## References
-- [paper-1]()
-- [paper-2]()
-- [code-1](https://github.com)
-- [code-2](https://github.com)
-  
-## License
 
-## Citing
-If you use xxx,please use the following BibTeX entry.
-```
-```
