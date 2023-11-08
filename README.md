@@ -9,8 +9,8 @@ E-commerce PHP MVC
 - Clone the projet using git
 - Run `composer install`
 - Configure the app/config.php 
-- Run migrations by executing `php database/index.php (--seed| --refresh)`
-
+- Run migrations by executing `php database/index.php --seed --refresh (facultatif)
+  
 ## Features
 - Router
 - Migrations / Factory / Seeder
